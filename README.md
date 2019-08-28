@@ -11,7 +11,29 @@ poetry install
 poetry run pytest mysite
 
 # the test should error but the bug can be a bit flakey so you may need to run it twice.
+
+
 ```
+
+if we remove the call to `get_user` the error goes away
+
+```diff
+diff --git a/mysite/chat/consumers.py b/mysite/chat/consumers.py
+index 42fd816..9662f83 100644
+--- a/mysite/chat/consumers.py
++++ b/mysite/chat/consumers.py
+@@ -14,7 +14,6 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
+         )
+
+     async def receive_json(self, content):
+-        user = await get_user(self.scope)
+         await self.channel_layer.group_add(
+             GROUP_NAME,
+             self.channel_name
+```
+
+
+### the error
 
 ```
 ❯ poetry run pytest mysite
