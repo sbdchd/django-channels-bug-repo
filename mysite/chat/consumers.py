@@ -1,7 +1,11 @@
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
-from channels.auth import get_user
+from asgiref.sync import sync_to_async
 
 GROUP_NAME = "FOO_GROUP"
+
+@sync_to_async
+def get_user(scope):
+    return None
 
 class ChatConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
